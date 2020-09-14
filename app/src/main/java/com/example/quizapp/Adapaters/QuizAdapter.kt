@@ -10,20 +10,19 @@ import com.example.quizapp.Model.Table
 
 import com.example.quizapp.R
 
-class QuizAdapter(val context: Context, val tableList: List<Table>): RecyclerView.Adapter<QuizAdapter.Holder>()  {
+class QuizAdapter(val context: Context): RecyclerView.Adapter<QuizAdapter.Holder>()  {
+    private var tableList = emptyList<Table>()
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val questionTextView = itemView.findViewById<TextView>(R.id.qa_questionTextView)
         val answerTextView = itemView.findViewById<TextView>(R.id.qa_answerTextView)
 
-        fun bindCategory(table: Table?, context: Context){
-
+        fun bindTable(table: Table?, context: Context){
             if(table == null){
                 return
             }
             questionTextView?.text = table.question
             answerTextView?.text = table.answer
-
         }
     }
 
@@ -33,7 +32,12 @@ class QuizAdapter(val context: Context, val tableList: List<Table>): RecyclerVie
     }
 
     override fun getItemCount(): Int {
-        return tableList.count()
+        if(tableList.isNullOrEmpty()){
+            return 0
+        }
+        else{
+            return tableList.count()
+        }
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
@@ -44,6 +48,11 @@ class QuizAdapter(val context: Context, val tableList: List<Table>): RecyclerVie
         else{
             tableItem = tableList[position]
         }
-        holder.bindCategory(tableItem, context)
+        holder.bindTable(tableItem, context)
+    }
+
+    internal fun setQuizes(tables: List<Table>){
+        this.tableList = tables
+        notifyDataSetChanged()
     }
 }

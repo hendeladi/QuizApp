@@ -1,19 +1,22 @@
 package com.example.quizapp.Model
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface TableDao {
     @Query("SELECT * from qa_table")
-    fun getAll(): List<Table>
+    fun getAll(): LiveData<List<Table>>
+
+    @Query("SELECT * from qa_table")
+    suspend fun getAllNotLive(): List<Table>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(table: Table)
+    suspend fun insert(table: Table)
 
     @Query("DELETE FROM qa_table")
-    fun deleteAll()
+    suspend fun deleteAll()
+
+    @Delete
+    suspend fun delete(table: Table)
 }
