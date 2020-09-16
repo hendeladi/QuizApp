@@ -23,4 +23,7 @@ class QuizRepository(private val dao: TableDao) {
     suspend fun getData(): LiveData<List<Table>>{
         return dao.getAll()
     }
+    fun getTable(question: String):LiveData<List<Table>> {
+        return dao.getTable(question)
+    }
 }

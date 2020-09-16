@@ -5,8 +5,11 @@ import androidx.room.*
 
 @Dao
 interface TableDao {
-    @Query("SELECT * from qa_table")
+    @Query("SELECT * from qa_table ORDER BY question ASC")
     fun getAll(): LiveData<List<Table>>
+
+    @Query("SELECT * from qa_table WHERE question=:question ")
+    fun getTable(question: String): LiveData<List<Table>>
 
     @Query("SELECT * from qa_table")
     suspend fun getAllNotLive(): List<Table>

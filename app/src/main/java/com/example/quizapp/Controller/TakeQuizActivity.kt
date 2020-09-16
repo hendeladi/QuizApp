@@ -14,7 +14,6 @@ import java.util.*
 class TakeQuizActivity : AppCompatActivity() {
 
     private val random = Random()
-
     private var allQuizes: List<Table> = emptyList()
     private var chosenQuiz: Table? = null
 
@@ -32,13 +31,14 @@ class TakeQuizActivity : AppCompatActivity() {
                 takeQuizActivityQuestionText.text = "Question: " + chosenQuiz?.question
                 takeQuizActivityAnswerText.text = "Answer :"
             }
+            else{
+                Toast.makeText(this, "You haven't added any quizzes yet", Toast.LENGTH_SHORT).show()
+            }
 
         })
         setContentView(R.layout.activity_take_quiz)
 
-        if(allQuizes.size == 0){
-            Toast.makeText(this, "You haven't added any quizzes yet", Toast.LENGTH_LONG).show()
-        }
+
     }
 
     fun setText(){

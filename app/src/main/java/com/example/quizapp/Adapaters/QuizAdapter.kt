@@ -10,10 +10,10 @@ import com.example.quizapp.Model.Table
 
 import com.example.quizapp.R
 
-class QuizAdapter(val context: Context): RecyclerView.Adapter<QuizAdapter.Holder>()  {
+class QuizAdapter(val context: Context,  val itemClick: (Table, View) -> Unit): RecyclerView.Adapter<QuizAdapter.Holder>()  {
     private var tableList = emptyList<Table>()
 
-    inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class Holder( itemView: View,  val itemClick: (Table, View) -> Unit) : RecyclerView.ViewHolder(itemView){
         val questionTextView = itemView.findViewById<TextView>(R.id.qa_questionTextView)
         val answerTextView = itemView.findViewById<TextView>(R.id.qa_answerTextView)
 
@@ -23,12 +23,14 @@ class QuizAdapter(val context: Context): RecyclerView.Adapter<QuizAdapter.Holder
             }
             questionTextView?.text = table.question
             answerTextView?.text = table.answer
+            itemView.setOnClickListener { itemClick(table, itemView) }
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(context).inflate(R.layout.qa_row,parent, false)
-        return Holder(view)
+        return Holder(view, itemClick)
     }
 
     override fun getItemCount(): Int {
@@ -41,7 +43,7 @@ class QuizAdapter(val context: Context): RecyclerView.Adapter<QuizAdapter.Holder
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        var tableItem: Table?
+        val tableItem: Table?
         if(tableList.isNullOrEmpty()){
             tableItem = null
         }

@@ -33,4 +33,8 @@ class QuizViewModel(application: Application): AndroidViewModel(application) {
       return allQuizes
     }
 
+    fun getQuiz(question: String):LiveData<List<Table>> {
+        return repository.getTable(question)
+    }
+
 }
